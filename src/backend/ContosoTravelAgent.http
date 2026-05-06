@@ -1,5 +1,7 @@
 @AIAgent.Host_HostAddress = http://localhost:5001
 
+# OpenAI-Compatible Chat Completions API
+
 POST {{AIAgent.Host_HostAddress}}/ContosoTravelAgent/v1/chat/completions
 Content-Type: application/json
 
@@ -30,7 +32,46 @@ Content-Type: application/json
     },
     {
       "role": "user",
-      "content": "I love snorkeling and diving. My budget is around $3000"
+      "content": "I love snorkeling and diving. My budget is around $2000"
     }
   ]
 }
+
+
+
+# OpenAI-Compatible Responses API
+
+### Create a Conversation
+POST {{AIAgent.Host_HostAddress}}/v1/conversations
+Content-Type: application/json
+
+{
+  "items": [
+  ]
+}
+
+### Response API
+# First create a conversation using the endpoint above, then use the conversation ID here
+POST {{AIAgent.Host_HostAddress}}/ContosoTravelAgent/v1/responses
+Content-Type: application/json
+
+{
+  "stream": false,
+  "conversation": "conv_YOUR_CONVERSATION_ID_HERE",
+  "input": [
+    {
+      "type": "message",
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Hi! Can you help me plan a trip?"
+        }
+      ]
+    }
+  ]
+}
+
+### Get Conversation Items
+# Replace with your conversation ID from the create conversation response
+GET {{AIAgent.Host_HostAddress}}/v1/conversations/conv_YOUR_CONVERSATION_ID_HERE/items?include=string

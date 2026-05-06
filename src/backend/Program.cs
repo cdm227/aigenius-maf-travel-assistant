@@ -42,6 +42,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.AddOpenAIChatCompletions();
+builder.AddOpenAIResponses();
+builder.AddOpenAIConversations();
 builder.Services.AddAGUI();
 
 IChatClient chatClient;
@@ -138,10 +140,16 @@ var app = builder.Build();
 app.MapGet("/", () => Results.Ok(new { status = "healthy", service = "Travel Assistant API" }));
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
 
-var travelBot = app.Services.GetRequiredKeyedService<AIAgent>("ContosoTravelAgent");
-app.MapOpenAIChatCompletions(travelBot, "/ContosoTravelAgent/v1/chat/completions");
+// Map OpenAI-compatible chat completions endpoint
+var travelAgent = app.Services.GetRequiredKeyedService<AIAgent>("ContosoTravelAgent");
+app.MapOpenAIChatCompletions(travelAgent, "/ContosoTravelAgent/v1/chat/completions");
+
+// Map OpenAI-compatible responses endpoint
+app.MapOpenAIResponses(travelAgent, "/ContosoTravelAgent/v1/responses");
+app.MapOpenAIConversations();
+
 // Map AGUI endpoint
-app.MapAGUI("/agent/contoso_travel_bot", travelBot);
+app.MapAGUI("/agent/contoso_travel_bot", travelAgent);
 
 //app.MapPost("/agent/contoso_travel_bot", async (HttpContext context) =>
 //{
@@ -157,8 +165,8 @@ app.MapAGUI("/agent/contoso_travel_bot", travelBot);
 //});
 
 // Map workflow agent endpoint
-var workflowBot = app.Services.GetRequiredKeyedService<AIAgent>("ContosoTravelWorkflowAgent");
-app.MapAGUI("/agent/contoso_travel_workflow", workflowBot);
+var workflowAgent = app.Services.GetRequiredKeyedService<AIAgent>("ContosoTravelWorkflowAgent");
+app.MapAGUI("/agent/contoso_travel_workflow", workflowAgent);
 
 app.UseRequestContext();
 app.UseCors();
