@@ -100,10 +100,10 @@ public static class ConfigurationExtensions
     {
         EmbeddingClient embeddingClient;
 
-        var azureClient = new Azure.AI.OpenAI.AzureOpenAIClient(
+        var azureOpenAIClient = new Azure.AI.OpenAI.AzureOpenAIClient(
             new Uri(config.AzureAIServicesEndpoint!),
             new DefaultAzureCredential());
-        embeddingClient = azureClient.GetEmbeddingClient(config.AzureEmbeddingModelName);
+        embeddingClient = azureOpenAIClient.GetEmbeddingClient(config.AzureEmbeddingModelName);
 
         services.AddSingleton(embeddingClient);
     }

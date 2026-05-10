@@ -21,6 +21,7 @@
 using System.ClientModel;
 using System.ComponentModel;
 using Azure.AI.OpenAI;
+using OpenAI;
 using DotNetEnv;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
@@ -175,8 +176,8 @@ IChatClient? CreateChatClient(ILogger appLogger)
     if (!string.IsNullOrEmpty(azureEndpoint) && !string.IsNullOrEmpty(azureApiKey))
     {
         appLogger.LogInformation("Using Azure OpenAI with model: {ModelName}", modelName);
-        var azureClient = new AzureOpenAIClient(new Uri(azureEndpoint), new ApiKeyCredential(azureApiKey));
-        return azureClient.GetChatClient(modelName)
+        var azureOpenAIClient = new AzureOpenAIClient(new Uri(azureEndpoint), new ApiKeyCredential(azureApiKey));
+        return azureOpenAIClient.GetChatClient(modelName)
             .AsIChatClient()
             .AsBuilder()
             .UseOpenTelemetry(sourceName: SourceName, configure: (cfg) => cfg.EnableSensitiveData = true)
@@ -185,8 +186,12 @@ IChatClient? CreateChatClient(ILogger appLogger)
     else if (!string.IsNullOrEmpty(githubToken))
     {
         appLogger.LogInformation("Using GitHub Models with model: {ModelId}", githubModelId);
-        var githubClient = new AzureOpenAIClient(new Uri(githubBaseUrl), new ApiKeyCredential(githubToken));
-        return githubClient.GetChatClient(githubModelId)
+        var openAIOptions = new OpenAIClientOptions()
+        {
+            Endpoint = new Uri(githubBaseUrl)
+        };
+        var openAIClient = new OpenAIClient(new ApiKeyCredential(githubToken), openAIOptions);
+        return openAIClient.GetChatClient(githubModelId)
             .AsIChatClient()
             .AsBuilder()
             .UseOpenTelemetry(sourceName: SourceName, configure: (cfg) => cfg.EnableSensitiveData = true)

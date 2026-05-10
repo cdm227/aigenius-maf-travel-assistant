@@ -104,8 +104,8 @@ IChatClient? CreateChatClient(ILogger appLogger)
     if (!string.IsNullOrEmpty(azureEndpoint) && !string.IsNullOrEmpty(azureApiKey))
     {
         appLogger.LogInformation("Using Azure OpenAI with model: {ModelName}", modelName);
-        var azureClient = new AzureOpenAIClient(new Uri(azureEndpoint), new ApiKeyCredential(azureApiKey));
-        return azureClient.GetChatClient(modelName)
+        var azureOpenAIClient = new AzureOpenAIClient(new Uri(azureEndpoint), new ApiKeyCredential(azureApiKey));
+        return azureOpenAIClient.GetChatClient(modelName)
             .AsIChatClient()
             .AsBuilder()
             .UseOpenTelemetry(sourceName: SourceName, configure: (cfg) => cfg.EnableSensitiveData = true)

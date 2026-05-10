@@ -179,8 +179,8 @@ static IChatClient? CreateChatClient()
                 return null;
             }
 
-            var azureClient = new AzureOpenAIClient(new Uri(endpoint), new ApiKeyCredential(key));
-            return azureClient.GetChatClient(deploymentName)
+            var azureOpenAIClient = new AzureOpenAIClient(new Uri(endpoint), new ApiKeyCredential(key));
+            return azureOpenAIClient.GetChatClient(deploymentName)
                 .AsIChatClient()
                 .AsBuilder()
                 .UseOpenTelemetry(sourceName: SourceName, configure: (cfg) => cfg.EnableSensitiveData = true)
