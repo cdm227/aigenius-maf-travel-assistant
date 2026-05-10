@@ -42,7 +42,7 @@ var (loggerFactory, appLogger, tracerProvider) = InitTelemetry(ServiceName);
 var chatClient = CreateChatClient(appLogger);
 
 // Step 4: Create context provider with travel knowledge
-var travelContext = new TravelKnowledgeContext();
+var travelContext = new TravelKnowledgeContextProvider();
 
 // Step 5: Create agent with context
 var agent = chatClient.AsAIAgent(new ChatClientAgentOptions
@@ -186,7 +186,7 @@ void LoadEnv()
 
 // ==================== Context Provider ====================
 
-internal sealed class TravelKnowledgeContext : AIContextProvider
+internal sealed class TravelKnowledgeContextProvider : AIContextProvider
 {
     // Hard-coded travel knowledge that will be provided to the agent
     private const string TravelKnowledge = @"
@@ -238,7 +238,7 @@ DESTINATION HIGHLIGHTS:
 
 ";
 
-    public TravelKnowledgeContext() : base(null, null) { }
+    public TravelKnowledgeContextProvider() : base(null, null) { }
 
     protected override ValueTask<AIContext> ProvideAIContextAsync(InvokingContext context, CancellationToken cancellationToken = default)
     {

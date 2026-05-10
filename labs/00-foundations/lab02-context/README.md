@@ -20,7 +20,7 @@ The provider has a two-phase lifecycle:
 - **Before the call** (`ProvideAIContextAsync`) — returns an `AIContext` object containing extra instructions, messages, or tools to include in this specific invocation
 - **After the call** (optional, `InvokedAsync`) — can process the result, which is useful for learning or state management
 
-In this lab, `TravelKnowledgeContext` overrides `ProvideAIContextAsync` to return a hard-coded string of destination knowledge:
+In this lab, `TravelKnowledgeContextProvider` overrides `ProvideAIContextAsync` to return a hard-coded string of destination knowledge:
 
 ```csharp
 protected override ValueTask<AIContext> ProvideAIContextAsync(InvokingContext context, CancellationToken cancellationToken = default)
