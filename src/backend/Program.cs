@@ -128,10 +128,10 @@ builder.Services.AddSingleton<FlightBookingAgentFactory>(sp =>
    return new FlightBookingAgentFactory(
        chatClient, mcpClient, jsonOptions, httpContextAccessor, loggerFactory, config, cosmosDatabase);
 });
-builder.Services.AddSingleton<ContosoTravelWorkflowAgentFactory>();
+builder.Services.AddSingleton<ContosoTravelWorkflowBuilder>();
 builder.Services.AddKeyedSingleton("ContosoTravelWorkflowAgent", (sp, key) =>
 {
-   var factory = sp.GetRequiredService<ContosoTravelWorkflowAgentFactory>();
+   var factory = sp.GetRequiredService<ContosoTravelWorkflowBuilder>();
    return factory.CreateAsync().Result;
 });
 

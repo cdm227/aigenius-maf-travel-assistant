@@ -4,12 +4,12 @@ using Microsoft.Extensions.AI;
 
 namespace ContosoTravelAgent.Host.Agents.Workflow;
 
-public class ContosoTravelWorkflowAgentFactory
+public class ContosoTravelWorkflowBuilder
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly ILoggerFactory _loggerFactory;
 
-    public ContosoTravelWorkflowAgentFactory(
+    public ContosoTravelWorkflowBuilder(
         IServiceProvider serviceProvider,
         ILoggerFactory loggerFactory)
     {
@@ -39,7 +39,7 @@ public class ContosoTravelWorkflowAgentFactory
         AIAgent workflowAgent = workflow.AsAIAgent();
 
         // Apply OpenTelemetry and logging
-        var logger = _loggerFactory.CreateLogger<ContosoTravelWorkflowAgentFactory>();
+        var logger = _loggerFactory.CreateLogger<ContosoTravelWorkflowBuilder>();
         workflowAgent = workflowAgent.AsBuilder()
             .UseOpenTelemetry(Constants.ApplicationId, options =>
             {

@@ -164,7 +164,8 @@ public class ContosoTravelAgentBuilder
             new UserProfileMemoryProviderScope
             {
                 UserId = userId,
-                ApplicationId = Constants.ApplicationId
+                ApplicationId = Constants.ApplicationId,
+                AgentId = Constants.AgentName
             },
             loggerFactory: _loggerFactory);
     }
