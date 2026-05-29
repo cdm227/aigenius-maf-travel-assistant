@@ -1,0 +1,5 @@
+{
+  "appHost": {
+    "path": "ContosoTravel.AppHost/ContosoTravel.AppHost.csproj"
+  }
+}

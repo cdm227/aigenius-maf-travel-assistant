@@ -16,7 +16,7 @@ param resourcePrefix string = 'aiagent-ws'
 param chatCompletionModel string = 'gpt-4o'
 param chatCompletionModelFormat string = 'OpenAI'
 param chatCompletionModelVersion string = '2024-11-20'
-param chatCompletionModelSkuName string = 'Standard'
+param chatCompletionModelSkuName string = 'GlobalStandard'
 param chatCompletionModelCapacity int = 50
 param modelLocation string = 'australiaeast'
 
@@ -24,7 +24,7 @@ param modelLocation string = 'australiaeast'
 param embeddingModelName string = 'text-embedding-3-small'
 param embeddingModelFormat string = 'OpenAI'
 param embeddingModelVersion string = '1'
-param embeddingModelSkuName string = 'Standard'
+param embeddingModelSkuName string = 'GlobalStandard'
 param embeddingModelCapacity int = 120
 
 // MCP Server authentication
